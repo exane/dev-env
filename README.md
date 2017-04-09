@@ -1,7 +1,7 @@
 # Vagrantfile
 Ubuntu trusty64 with preinstalled docker, zsh, jsonpp and direnv.
 
-https://atlas.hashicorp.com/exane/boxes/ubuntu/
+https://atlas.hashicorp.com/exane/boxes/ubuntu_docker/
 
 # Usage
 ```sh
