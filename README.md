@@ -1,5 +1,6 @@
 # Vagrantfile
 Ubuntu trusty64 with preinstalled zsh, jsonpp and direnv.
+
 https://atlas.hashicorp.com/exane/boxes/ubuntu/
 
 # Usage
