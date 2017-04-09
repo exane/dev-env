@@ -59,5 +59,8 @@ Vagrant.configure("2") do |config|
       echo 'eval "$(direnv hook bash)"' >> /home/vagrant/.bashrc
   SHELL
 
+  # install docker
+  config.vm.provision "docker"
+
   config.ssh.forward_agent = true
 end
