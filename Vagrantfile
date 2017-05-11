@@ -21,6 +21,10 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, privileged: false,
     inline: "cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc"
 
+  # Disable autoupdate .zshrc
+  config.vm.provision :shell, privileged: false,
+    inline: "cat ~/.zshrc | grep -v DISABLE_AUTO_UPDATE > .tmp_zshrc && echo \"DISABLE_AUTO_UPDATE=true\" >> .tmp_zshrc && mv .tmp_zshrc .zshrc"
+
   # Change the vagrant user's shell to use zsh
   config.vm.provision :shell, inline: "chsh -s /bin/zsh vagrant"
 
