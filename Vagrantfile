@@ -72,6 +72,9 @@ Vagrant.configure("2") do |config|
     privileged: false,
     inline: <<-SHELL
       wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | zsh
+      echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
+      echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.zshrc
+      echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion' >> ~/.zshrc
   SHELL
 
   config.ssh.forward_agent = true

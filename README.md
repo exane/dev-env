@@ -21,3 +21,16 @@ Vagrant.configure("2") do |config|
 vagrant package
 vagrant box add exane/ubuntu ./package.box --force
 ```
+
+# Databases
+
+## Mysql (Mariadb)
+Install:
+```shell
+docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mariadb
+```
+
+Client:
+```shell
+sudo apt install mysql-client
+```
