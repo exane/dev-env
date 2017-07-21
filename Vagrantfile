@@ -15,11 +15,15 @@ Vagrant.configure("2") do |config|
 
   # Clone Oh My Zsh from the git repo
   config.vm.provision :shell, privileged: false,
-    inline: "git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh"
+    inline: "rm -rf ~/.oh-my-zsh; git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh"
 
   # Copy in the default .zshrc config file
   config.vm.provision :shell, privileged: false,
     inline: "cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc"
+
+  # Disable autoupdate .zshrc
+  config.vm.provision :shell, privileged: false,
+    inline: "cat ~/.zshrc | grep -v DISABLE_AUTO_UPDATE > .tmp_zshrc && echo \"DISABLE_AUTO_UPDATE=true\" >> .tmp_zshrc && mv .tmp_zshrc .zshrc"
 
   # Change the vagrant user's shell to use zsh
   config.vm.provision :shell, inline: "chsh -s /bin/zsh vagrant"
@@ -61,6 +65,14 @@ Vagrant.configure("2") do |config|
 
   # install docker
   config.vm.provision "docker"
+
+  # install nvm
+  config.vm.provision "nvm",
+    type: "shell",
+    privileged: false,
+    inline: <<-SHELL
+      wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | zsh
+  SHELL
 
   config.ssh.forward_agent = true
 end
