@@ -1,11 +1,11 @@
 # Vagrantfile
-Ubuntu trusty64 with preinstalled docker, zsh, nvm, jsonpp and direnv.
+Dev env
 
-https://atlas.hashicorp.com/exane/boxes/ubuntu_docker/
+https://atlas.hashicorp.com/exane/boxes/ubuntu/
 
 # Usage
 ```sh
-vagrant init exane/ubuntu_docker
+vagrant init exane/ubuntu
 vagrant up
 ```
 
@@ -13,7 +13,7 @@ or manually
 
 ```ruby
 Vagrant.configure("2") do |config|
-  config.vm.box = "exane/ubuntu_docker"
+  config.vm.box = "exane/ubuntu"
   ...
 ```
 
