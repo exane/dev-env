@@ -70,17 +70,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "nvm",
     type: "shell",
     privileged: false,
-    inline: <<-SHELL
-      rm -rf ~/.nvm
-      wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
-      echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
-      echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.zshrc
-      echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion' >> ~/.zshrc
-
-      export NVM_DIR="$HOME/.nvm"
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-      nvm install node  # install latest node version
-  SHELL
+    path: "./node.sh"
 
   # copy nginx.conf to /home/vagrant/
   config.vm.provision "nginx.conf",
@@ -101,12 +91,19 @@ Vagrant.configure("2") do |config|
   # install mysql (docker)
   config.vm.provision "mysql",
     type: "shell",
+    privileged: false,
     inline: <<-SHELL
       docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mariadb
 
-      apt update -y
-      apt install -y mysql-client
+      sudo apt update -y
+      sudo apt install -y mysql-client
   SHELL
+
+  # install ruby
+  config.vm.provision "ruby",
+    type: "shell",
+    privileged: false,
+    path: "./ruby.sh"
 
   config.ssh.forward_agent = true
 end
