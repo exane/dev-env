@@ -72,17 +72,6 @@ Vagrant.configure("2") do |config|
     privileged: false,
     path: "./node.sh"
 
-  # copy nginx.conf to /home/vagrant/
-  config.vm.provision "nginx.conf",
-    type: "file",
-    source: "./nginx.conf",
-    destination: "/home/vagrant/nginx.conf"
-
-  # install nginx
-  config.vm.provision "nginx",
-    type: "shell",
-    path: "./nginx.sh"
-
   # install php7
   config.vm.provision "php7",
     type: "shell",
@@ -91,12 +80,11 @@ Vagrant.configure("2") do |config|
   # install mysql (docker)
   config.vm.provision "mysql",
     type: "shell",
-    privileged: false,
     inline: <<-SHELL
       docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mariadb
 
-      sudo apt update -y
-      sudo apt install -y mysql-client
+      apt-get update -y
+      apt-get install -y mysql-client
   SHELL
 
   # install ruby
