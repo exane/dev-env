@@ -4,41 +4,39 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/trusty64"
 
-  ############################################################
-  # Oh My ZSH Install section
-
-  # Install git and zsh prerequisites 
-  config.vm.provision :shell, inline: "add-apt-repository ppa:git-core/ppa -y"
-  config.vm.provision :shell, inline: "apt-get update"
-  config.vm.provision :shell, inline: "apt-get -y install git zsh"
-
-  # Clone Oh My Zsh from the git repo
-  config.vm.provision :shell, privileged: false,
-    inline: "rm -rf ~/.oh-my-zsh; git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh"
-
-  # Copy in the default .zshrc config file
-  config.vm.provision :shell, privileged: false,
-    inline: "cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc"
-
-  # Disable autoupdate .zshrc
-  config.vm.provision :shell, privileged: false,
-    inline: "cat ~/.zshrc | grep -v DISABLE_AUTO_UPDATE > .tmp_zshrc && echo \"DISABLE_AUTO_UPDATE=true\" >> .tmp_zshrc && mv .tmp_zshrc .zshrc"
-
-  # Change the vagrant user's shell to use zsh
-  config.vm.provision :shell, inline: "chsh -s /bin/zsh vagrant"
-
-  ############################################################
-
-  config.vm.provision :shell, inline: "echo 'stty sane' >> /home/vagrant/.zshrc"
-
-  config.vm.provision "set startup directory",
-    type: "shell", inline: "echo 'cd /vagrant' >> /home/vagrant/.zshrc"
-
   config.vm.provider "virtualbox" do |v|
     v.memory = 4000
     v.cpus = 4
     v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
   end
+
+  ############################################################
+  # Oh My ZSH Install section
+
+  # Install basics
+  config.vm.provision "basics",
+    type: :shell,
+    inline: <<-SHELL
+      add-apt-repository ppa:git-core/ppa -y
+      apt-get update
+      apt-get -y install git
+    SHELL
+
+  # Install zsh and clone Oh My Zsh from the git repo
+  config.vm.provision "zsh",
+    type: :shell,
+    privileged: false,
+    inline: <<-SHELL
+      sudo apt-get update
+      sudo apt-get -y install zsh
+      sudo rm -rf ~/.oh-my-zsh; git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+      cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+      sudo chsh -s /bin/zsh vagrant  # Change the vagrant user's shell to use zsh
+      echo 'stty sane' >> /home/vagrant/.zshrc
+      echo 'cd /vagrant' >> /home/vagrant/.zshrc
+    SHELL
+
+  ############################################################
 
   # install jsonpp
   config.vm.provision "jsonpp",
@@ -81,6 +79,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "mysql",
     type: "shell",
     inline: <<-SHELL
+      docker pull mariadb
       docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mariadb
 
       apt-get update -y
@@ -92,6 +91,11 @@ Vagrant.configure("2") do |config|
     type: "shell",
     privileged: false,
     path: "./ruby.sh"
+
+  # cleanup
+  config.vm.provision "cleanup",
+    type: "shell",
+    inline: "apt-get autoremove -y"
 
   config.ssh.forward_agent = true
 end
