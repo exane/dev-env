@@ -1,3 +1,10 @@
+# Dependencies
+sudo apt-get install -y \
+  libmysqlclient-dev\
+  g++\
+  libxslt-dev libxml2-dev\
+  libmagickwand-dev imagemagick
+
 # Install RVM
 curl -sSL https://get.rvm.io | bash -s stable
 
