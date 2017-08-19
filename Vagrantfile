@@ -91,5 +91,8 @@ Vagrant.configure("2") do |config|
     type: "shell",
     inline: "apt-get autoremove -y"
 
+  config.vm.provision "copy gitconfig", type: "file", source: "~/.gitconfig", destination: "~/.gitconfig"
+  config.vm.provision "copy gitognore", type: "file", source: "~/.gitignore_global", destination: "~/.gitignore_global"
+
   config.ssh.forward_agent = true
 end
