@@ -94,10 +94,5 @@ Vagrant.configure("2") do |config|
   config.vm.provision "copy-gitconfig", type: "file", source: "~/.gitconfig", destination: "~/.gitconfig"
   config.vm.provision "copy-gitignore", type: "file", source: "~/.gitignore_global", destination: "~/.gitignore_global"
 
-  config.ssh.private_key_path = ["~/.ssh/id_rsa"]
-  # Vagrant generates a random key and insert to box and this random key is not in the private keys to use (set up above).
-  # So you cannot login. So we modify setting to not insert random generated key in the box, like this.
-  config.ssh.insert_key = false
-  config.vm.provision "ssh-pub-key", type: "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
   config.ssh.forward_agent = true
 end
