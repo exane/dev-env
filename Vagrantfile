@@ -61,9 +61,6 @@ Vagrant.configure("2") do |config|
       echo 'eval "$(direnv hook zsh)"' >> /home/vagrant/.zshrc
   SHELL
 
-  # install docker
-  config.vm.provision "docker"
-
   # install nvm
   config.vm.provision "nvm",
     type: "shell",
@@ -75,13 +72,10 @@ Vagrant.configure("2") do |config|
     type: "shell",
     path: "./php7.sh"
 
-  # install mysql (docker)
+  install mysql-client
   config.vm.provision "mysql",
     type: "shell",
     inline: <<-SHELL
-      docker pull mariadb
-      docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mariadb
-
       apt-get update -y
       apt-get install -y mysql-client
   SHELL
