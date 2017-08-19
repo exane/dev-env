@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
     inline: <<-SHELL
       add-apt-repository ppa:git-core/ppa -y
       apt-get update
-      apt-get -y install git
+      apt-get -y install git git-flow
     SHELL
 
   # Install zsh and clone Oh My Zsh from the git repo
