@@ -2,7 +2,6 @@
 sudo apt-get install -y \
   libmysqlclient-dev\
   g++\
-  phantomjs\
   libxslt-dev libxml2-dev\
   libmagickwand-dev imagemagick
 
