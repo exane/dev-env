@@ -8,6 +8,11 @@ up:
 
 rebuild: destroy up
 
+base:
+	vagrant up --no-provision
+
+rebuild-base: destroy base
+
 package:
 	rm -rf package.box
 	vagrant package
