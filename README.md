@@ -61,3 +61,22 @@ psql -h 192.168.99.100 -Uroot
 # or non-interactively
 PGPASSWORD=root psql -h 192.168.99.100 -Uroot
 ```
+
+## Mongodb
+Install:
+```shell
+docker run --name mongodb -p 27017:27017 -d mongo
+```
+
+Client:
+```shell
+sudo apt-get install mongodb-clients
+```
+
+Usage:
+
+```shell
+mongo --host 192.168.99.100
+# or non-interactively
+mongo --host 192.168.99.100 -uroot -proot
+```

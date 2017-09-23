@@ -88,6 +88,14 @@ Vagrant.configure("2") do |config|
       apt-get install -y postgresql-client-9.3
   SHELL
 
+  # install mongodb-client
+  config.vm.provision "mongodb",
+    type: "shell",
+    inline: <<-SHELL
+      apt-get update -y
+      apt-get install -y mongodb-clients
+  SHELL
+
   # install ruby
   config.vm.provision "ruby",
     type: "shell",
