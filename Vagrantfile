@@ -33,16 +33,13 @@ Vagrant.configure("2") do |config|
 
   ############################################################
 
-  # install jsonpp
-  config.vm.provision "jsonpp",
+  # install jq (json-pretty-print + manipulation helper)
+  # usage: curl http://.../api.json | jq .
+  config.vm.provision "jq",
     type: "shell",
     inline: <<-SHELL
       apt update -y
-      apt install unzip
-      wget https://github.com/jmhodges/jsonpp/releases/download/1.3.0/jsonpp-1.3.0-linux-x86_64.zip
-      unzip jsonpp-1.3.0-linux-x86_64.zip
-      (cd jsonpp-1.3.0 && cp jsonpp /usr/bin/)
-      rm -rf jsonpp-1.3.0 jsonpp-1.3.0-linux-x86_64.zip
+      apt install -y jq
   SHELL
 
   # install direnv
