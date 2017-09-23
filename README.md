@@ -80,3 +80,15 @@ mongo --host 192.168.99.100
 # or non-interactively
 mongo --host 192.168.99.100 -uroot -proot
 ```
+
+## Elasticsearch
+Install:
+```shell
+docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e ES_JAVA_OPTS="-Xms512m -Xmx512m" -d docker.elastic.co/elasticsearch/elasticsearch:5.6.1
+```
+
+Usage:
+
+```shell
+curl -uelastic:changeme http://192.168.99.100:9200
+```
