@@ -80,6 +80,14 @@ Vagrant.configure("2") do |config|
       apt-get install -y mysql-client
   SHELL
 
+  # install postgres-client
+  config.vm.provision "postgres",
+    type: "shell",
+    inline: <<-SHELL
+      apt-get update -y
+      apt-get install -y postgresql-client-9.3
+  SHELL
+
   # install ruby
   config.vm.provision "ruby",
     type: "shell",

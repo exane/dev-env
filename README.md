@@ -34,3 +34,30 @@ Client:
 ```shell
 sudo apt install mysql-client
 ```
+
+Usage:
+
+```shell
+mysql -h 192.168.99.100 -uroot
+# or non-interactively
+mysql -h 192.168.99.100 -uroot -proot
+```
+
+## Postgresql
+Install:
+```shell
+docker run --name postgresql -p 5432:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres
+```
+
+Client:
+```shell
+sudo apt-get install postgresql-client-9.3
+```
+
+Usage:
+
+```shell
+psql -h 192.168.99.100 -Uroot
+# or non-interactively
+PGPASSWORD=root psql -h 192.168.99.100 -Uroot
+```
