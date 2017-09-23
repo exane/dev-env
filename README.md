@@ -1,7 +1,10 @@
 # Vagrantfile
 Dev env
 
-https://atlas.hashicorp.com/exane/boxes/ubuntu/
+# Build
+```shell
+make
+```
 
 # Usage
 ```sh
@@ -17,25 +20,20 @@ Vagrant.configure("2") do |config|
   ...
 ```
 
-```shell
-vagrant package
-vagrant box add exane/ubuntu ./package.box --force
-```
-
 # Databases
 
 ## Mysql (Mariadb)
-Install:
+### Install:
 ```shell
 docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mariadb
 ```
 
-Client:
+### Client:
 ```shell
 sudo apt install mysql-client
 ```
 
-Usage:
+### Usage:
 
 ```shell
 mysql -h 192.168.99.100 -uroot
@@ -44,17 +42,17 @@ mysql -h 192.168.99.100 -uroot -proot
 ```
 
 ## Postgresql
-Install:
+### Install:
 ```shell
 docker run --name postgresql -p 5432:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres
 ```
 
-Client:
+### Client:
 ```shell
 sudo apt-get install postgresql-client-9.3
 ```
 
-Usage:
+### Usage:
 
 ```shell
 psql -h 192.168.99.100 -Uroot
@@ -63,17 +61,17 @@ PGPASSWORD=root psql -h 192.168.99.100 -Uroot
 ```
 
 ## Mongodb
-Install:
+### Install:
 ```shell
 docker run --name mongodb -p 27017:27017 -d mongo
 ```
 
-Client:
+### Client:
 ```shell
 sudo apt-get install mongodb-clients
 ```
 
-Usage:
+### Usage:
 
 ```shell
 mongo --host 192.168.99.100
@@ -82,12 +80,12 @@ mongo --host 192.168.99.100 -uroot -proot
 ```
 
 ## Elasticsearch
-Install:
+### Install:
 ```shell
 docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e ES_JAVA_OPTS="-Xms512m -Xmx512m" -d docker.elastic.co/elasticsearch/elasticsearch:5.6.1
 ```
 
-Usage:
+### Usage:
 
 ```shell
 curl -uelastic:changeme http://192.168.99.100:9200
