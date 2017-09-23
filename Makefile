@@ -1,10 +1,12 @@
-build: destroy up package
+build: rebuild package
 
 destroy:
 	vagrant destroy -f
 
 up:
 	vagrant up
+
+rebuild: destroy up
 
 package:
 	rm -rf package.box
