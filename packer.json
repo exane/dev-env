@@ -1,0 +1,64 @@
+{
+  "builders": [{
+    "type": "virtualbox-iso",
+    "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
+    "boot_command": [
+      "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+      "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+      "/install/vmlinuz",
+      " auto",
+      " console-setup/ask_detect=false",
+      " console-setup/layoutcode=de",
+      " console-setup/modelcode=pc105",
+      " debconf/frontend=noninteractive",
+      " debian-installer=en_US",
+      " fb=false",
+      " initrd=/install/initrd.gz",
+      " kbd-chooser/method=us",
+      " keyboard-configuration/layout=USA",
+      " keyboard-configuration/variant=USA",
+      " locale=en_US",
+      " netcfg/get_domain=vm",
+      " netcfg/get_hostname=vagrant",
+      " grub-installer/bootdev=/dev/sda",
+      " noapic",
+      " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+      " -- <wait>",
+      "<enter><wait>"
+    ],
+    "boot_wait": "10s",
+    "disk_size": 81920,
+    "guest_os_type": "Ubuntu_64",
+    "headless": false,
+    "http_directory": "http",
+    "iso_urls": [
+      "tmp/ubuntu-16.04.3-server-amd64.iso",
+      "http://releases.ubuntu.com/16.04.3/ubuntu-16.04.3-server-amd64.iso"
+    ],
+    "iso_checksum": "10fcd20619dce11fe094e960c85ba4a9",
+    "iso_checksum_type": "md5",
+    "ssh_username": "vagrant",
+    "ssh_password": "vagrant",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "10000s",
+    "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+    "virtualbox_version_file": ".vbox_version",
+    "vm_name": "packer-ubuntu-16.04-amd64",
+    "vboxmanage": [
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--memory",
+        "1024"
+      ],
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--cpus",
+        "1"
+      ]
+    ]
+  }]
+}

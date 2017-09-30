@@ -1,3 +1,5 @@
 package.box
 !Vagrantfile
 tmp
+packer_cache
+output-virtualbox-iso
