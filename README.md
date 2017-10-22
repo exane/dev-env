@@ -1,3 +1,9 @@
+TODO:
+- find a way to use symlinks within mounted volumes
+  e.g ln -s source target
+  -> ln: failed to create symbolic link 'target': Read-only file system
+  even though it is not read-only
+
 # Vagrantfile
 Dev env
 

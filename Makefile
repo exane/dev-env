@@ -1,19 +1,9 @@
-build: rebuild package
+build: server.PID
+	docker build -t dev --rm .
+	$(MAKE) -s shutdown
 
-destroy:
-	vagrant destroy -f
+server.PID:
+	{ ruby -run -ehttpd ~ -p8080 -b192.168.99.1 & echo $$! > $@; }
 
-up:
-	vagrant up
-
-rebuild: destroy up
-
-base:
-	vagrant up --no-provision
-
-rebuild-base: destroy base
-
-package:
-	rm -rf package.box
-	vagrant package
-	vagrant box add exane/ubuntu package.box --force
+shutdown: server.PID
+	kill `cat $<` && rm $<
