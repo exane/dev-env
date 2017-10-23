@@ -14,34 +14,34 @@ ENV LANG en_US.utf8
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends -y vim sudo software-properties-common python-software-properties apt-utils \
+    && apt-get install -y vim sudo software-properties-common python-software-properties apt-utils \
       wget curl \
       manpages manpages-dev freebsd-manpages funny-manpages man2html manpages-posix manpages-posix-dev \
-      locales && rm -rf /var/lib/apt/lists/* \
+      locales \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
     && echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
+    && useradd -m $USER && echo "$USER:$USER" | chpasswd \
+    && adduser $USER sudo \
     && echo "Europe/Berlin" > /etc/timezone \
+    && echo "set term=ansi" >> $HOME/.vimrc \
     && apt-get autoremove -y
-
-RUN useradd -m $USER && echo "$USER:$USER" | chpasswd && adduser $USER sudo
 
 # SSH config
 RUN apt-get update -y\
-    && apt-get install --no-install-recommends -y openssh-client \
+    && apt-get install -y openssh-client \
     && apt-get autoremove -y \
     && mkdir $HOME/.ssh \
     && curl http://$SERVE_HTTP_ADDRESS:$SERVE_HTTP_PORT/.ssh/id_rsa -o $HOME/.ssh/id_rsa \
     && curl http://$SERVE_HTTP_ADDRESS:$SERVE_HTTP_PORT/.ssh/id_rsa_avarteq -o $HOME/.ssh/id_rsa_avarteq \
     && chmod 400 $HOME/.ssh/id_rsa \
-    && chmod 400 $HOME/.ssh/id_rsa_avarteq \
-    && rm -rf /var/lib/apt/lists/*
+    && chmod 400 $HOME/.ssh/id_rsa_avarteq
 COPY ssh_config /etc/ssh/ssh_config
 
 # GIT config
 RUN apt-get update \
     && curl http://$SERVE_HTTP_ADDRESS:$SERVE_HTTP_PORT/.gitconfig -o $HOME/.gitconfig \
     && curl http://$SERVE_HTTP_ADDRESS:$SERVE_HTTP_PORT/.gitignore_global -o $HOME/.gitignore_global \
-    && apt-get -y install --no-install-recommends git git-flow \
+    && apt-get -y install git git-flow \
     && chown $USER: $HOME/.ssh/id_rsa \
     && eval $(ssh-agent -s) \
     && ssh-add $HOME/.ssh/id_rsa \
@@ -50,26 +50,25 @@ RUN apt-get update \
     && git config --global gitflow.prefix.versiontag v \
     && chmod a+rwx $HOME/.gitconfig \
     && chmod a+rwx $HOME/.gitignore_global \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get autoremove -y
 
 # ZSH config
 COPY zshrc $HOME/.zshrc
 COPY inputrc $HOME/.inputrc
 RUN apt-get update \
     && chown $USER: $HOME/.zshrc $HOME/.inputrc \
-    && apt-get -y install --no-install-recommends zsh \
+    && ln -s /store/zsh/zsh_history $HOME/.zsh_history \
+    && apt-get -y install zsh \
     && git clone git://github.com/robbyrussell/oh-my-zsh.git $HOME/.oh-my-zsh \
+    && echo "mkdir -p /store/zsh/" >> $HOME/.zshrc \
     && chsh -s /bin/zsh $USER \
-    && rm -rf /var/lib/apt/lists/* \
     && apt-get autoremove -y
 
 # general tools
 RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends \
+    && apt-get install -y \
         mysql-client postgresql-client mongodb-clients \
-        jq \
-    && rm -rf /var/lib/apt/lists/* \
+        jq net-tools netcat telnet \
     && apt-get autoremove -y
 
 COPY php.sh /tmp

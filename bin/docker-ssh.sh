@@ -12,7 +12,9 @@ do
   case $arg in
     ssh)
       shift
-      docker run --rm -v $(PWD):/work --volumes-from dev-store $(echo $@) -it dev
+      prefix=$(echo $@ | sed "s#^\(.*\) --.*#\1#")
+      subfix=$(echo $@ | sed "s#.*-- \(.*\)\$#\1#")
+      docker run --rm -v $(PWD):/work --volumes-from dev-store $(echo $prefix) -it dev $(echo $subfix)
       exit
       ;;
     *)

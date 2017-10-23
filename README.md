@@ -1,5 +1,9 @@
-- dev-store container
-```
+
+# Vagrantfile
+Dev env
+
+## Create dev-store container
+```bash
 # used to store shared libs, such as rvm ruby versions
 docker run -it --name dev-store -v /store -d busybox
 
@@ -8,18 +12,23 @@ docker exec -it dev-store /bin/sh
 chmod a+w -R /store
 ```
 
-- dev images
-```
+## Create docker image
+```bash
 # build with
 make
+```
 
+## Run image
+```bash
 # run as
 docker start dev-store # if not running
+
+# Starts a new docker dev container and mounts the current working dir
 docker run --rm -v $(PWD):/work --volumes-from dev-store -it dev
 ```
 
-- experimental
-```
+## (Experimental) Run as docker ssh
+```bash
 # put bin/docker-ssh.sh into path
 alias docker="docker-ssh.sh docker $*"
 
@@ -28,39 +37,12 @@ docker ssh # to run the image on the current dir
 docker ssh -p 3000:3000 # with docker run options
 ```
 
-# Vagrantfile
-Dev env
-
-# Build
-```shell
-make
-```
-
-# Usage
-```sh
-vagrant init exane/ubuntu
-vagrant up
-```
-
-or manually
-
-```ruby
-Vagrant.configure("2") do |config|
-  config.vm.box = "exane/ubuntu"
-  ...
-```
-
 # Databases
 
 ## Mysql (Mariadb)
 ### Install:
 ```shell
 docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mariadb
-```
-
-### Client:
-```shell
-sudo apt install mysql-client
 ```
 
 ### Usage:
@@ -77,11 +59,6 @@ mysql -h 192.168.99.100 -uroot -proot
 docker run --name postgresql -p 5432:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres
 ```
 
-### Client:
-```shell
-sudo apt-get install postgresql-client-9.3
-```
-
 ### Usage:
 
 ```shell
@@ -94,11 +71,6 @@ PGPASSWORD=root psql -h 192.168.99.100 -Uroot
 ### Install:
 ```shell
 docker run --name mongodb -p 27017:27017 -d mongo
-```
-
-### Client:
-```shell
-sudo apt-get install mongodb-clients
 ```
 
 ### Usage:
