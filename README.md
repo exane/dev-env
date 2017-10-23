@@ -1,8 +1,32 @@
-TODO:
-- find a way to use symlinks within mounted volumes
-  e.g ln -s source target
-  -> ln: failed to create symbolic link 'target': Read-only file system
-  even though it is not read-only
+- dev-store container
+```
+# used to store shared libs, such as rvm ruby versions
+docker run -it --name dev-store -v /store -d busybox
+
+# change store permissions to give write access
+docker exec -it dev-store /bin/sh
+chmod a+w -R /store
+```
+
+- dev images
+```
+# build with
+make
+
+# run as
+docker start dev-store # if not running
+docker run --rm -v $(PWD):/work --volumes-from dev-store -it dev
+```
+
+- experimental
+```
+# put bin/docker-ssh.sh into path
+alias docker="docker-ssh.sh docker $*"
+
+# usage
+docker ssh # to run the image on the current dir
+docker ssh -p 3000:3000 # with docker run options
+```
 
 # Vagrantfile
 Dev env
