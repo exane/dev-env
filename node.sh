@@ -11,6 +11,7 @@ nvm=$(cat <<-EOF
   rm -rf ~/.nvm;
   ln -s /store/nvm -T ~/.nvm;
   export NVM_DIR=/store/nvm;
+  nvm use default;
 EOF
 )
 echo $nvm >> ~/.zshrc

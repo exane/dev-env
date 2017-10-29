@@ -14,6 +14,9 @@ unsetopt prompt_cr prompt_sp
 bindkey "5C" forward-word
 bindkey "5D" backward-word
 
+bindkey '\e[A' history-beginning-search-backward
+bindkey '\e[B' history-beginning-search-forward
+
 export PROMPT=$(whoami)" "$PROMPT
 
 stty sane
