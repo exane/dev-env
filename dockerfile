@@ -68,7 +68,7 @@ RUN apt-get update \
 RUN apt-get update -y \
     && apt-get install -y \
         mysql-client postgresql-client mongodb-clients \
-        jq net-tools netcat telnet \
+        jq net-tools netcat telnet dnsutils \
     && apt-get autoremove -y
 
 COPY php.sh /tmp

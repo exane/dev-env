@@ -14,7 +14,11 @@ do
       shift
       prefix=$(echo $@ | sed "s#^\(.*\) --.*#\1#")
       subfix=$(echo $@ | sed "s#.*-- \(.*\)\$#\1#")
-      docker run --rm -v $(PWD):/work --volumes-from dev-store $(echo $prefix) -it dev $(echo $subfix)
+      docker run \
+        --add-host "dev.docker:192.168.99.100" \
+        -v $(PWD):/work \
+        --volumes-from dev-store $(echo $prefix) \
+        -it --rm dev $(echo $subfix)
       exit
       ;;
     *)
