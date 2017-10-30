@@ -53,14 +53,10 @@ RUN apt-get update \
     && apt-get autoremove -y
 
 # ZSH config
-# COPY zshrc $HOME/.zshrc
-# COPY inputrc $HOME/.inputrc
 RUN apt-get update \
-    # && chown $USER: $HOME/.zshrc $HOME/.inputrc \
     && ln -s /store/zsh/zsh_history $HOME/.zsh_history \
     && apt-get -y install zsh \
     && git clone git://github.com/robbyrussell/oh-my-zsh.git $HOME/.oh-my-zsh \
-    # && echo "mkdir -p /store/zsh/" >> $HOME/.zshrc \
     && chsh -s /bin/zsh $USER \
     && apt-get autoremove -y
 
