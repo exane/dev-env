@@ -53,14 +53,14 @@ RUN apt-get update \
     && apt-get autoremove -y
 
 # ZSH config
-COPY zshrc $HOME/.zshrc
-COPY inputrc $HOME/.inputrc
+# COPY zshrc $HOME/.zshrc
+# COPY inputrc $HOME/.inputrc
 RUN apt-get update \
-    && chown $USER: $HOME/.zshrc $HOME/.inputrc \
+    # && chown $USER: $HOME/.zshrc $HOME/.inputrc \
     && ln -s /store/zsh/zsh_history $HOME/.zsh_history \
     && apt-get -y install zsh \
     && git clone git://github.com/robbyrussell/oh-my-zsh.git $HOME/.oh-my-zsh \
-    && echo "mkdir -p /store/zsh/" >> $HOME/.zshrc \
+    # && echo "mkdir -p /store/zsh/" >> $HOME/.zshrc \
     && chsh -s /bin/zsh $USER \
     && apt-get autoremove -y
 
@@ -82,6 +82,12 @@ RUN su -c /tmp/ruby.sh - $USER \
 COPY node.sh /tmp
 RUN su -c /tmp/node.sh - $USER \
     && rm /tmp/node.sh
+
+# Configs that might change often should be added last
+COPY zshrc $HOME/.zshrc
+COPY inputrc $HOME/.inputrc
+RUN chown $USER: $HOME/.zshrc $HOME/.inputrc
+RUN echo "unsetopt global_rcs" >> $HOME/.zprofile
 
 WORKDIR /work
 USER $USER

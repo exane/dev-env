@@ -14,10 +14,16 @@ unsetopt prompt_cr prompt_sp
 bindkey "5C" forward-word
 bindkey "5D" backward-word
 
-bindkey '\e[A' history-beginning-search-backward
-bindkey '\e[B' history-beginning-search-forward
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
 
 export PROMPT=$(whoami)" "$PROMPT
 
 stty sane
 stty erase ^H
+
+mkdir -p /store/zsh/
