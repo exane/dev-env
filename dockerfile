@@ -80,7 +80,10 @@ RUN su -c /tmp/node.sh - $USER \
     && rm /tmp/node.sh
 
 # Configs that might change often should be added last
-COPY zshrc $HOME/.zshrc
+COPY zshrc $HOME/.zshrc.tmp
+RUN mv $HOME/.zshrc $HOME/.zshrc.orig \
+    && cat $HOME/.zshrc.tmp $HOME/.zshrc.orig > $HOME/.zshrc \
+    && rm $HOME/.zshrc.tmp $HOME/.zshrc.orig
 COPY inputrc $HOME/.inputrc
 RUN chown $USER: $HOME/.zshrc $HOME/.inputrc
 RUN echo "unsetopt global_rcs" >> $HOME/.zprofile
