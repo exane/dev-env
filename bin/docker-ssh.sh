@@ -12,13 +12,13 @@ do
   case $arg in
     ssh)
       shift
-      prefix=$(echo $@ | sed "s#^\(.*\) --.*#\1#")
-      subfix=$(echo $@ | sed "s#.*-- \(.*\)\$#\1#")
+      docker_options=$(echo $@ | sed "s#^\(.*\) --.*#\1#")
+      docker_entrypoint=$(echo $@ | sed "s#.*-- \(.*\)\$#\1#")
       docker run \
         --add-host "dev.docker:192.168.99.100" \
         -v $(PWD):/work \
-        --volumes-from dev-store $(echo $prefix) \
-        -it --rm dev $(echo $subfix)
+        --volumes-from dev-store $(echo $docker_options) \
+        -it --rm dev $(echo $docker_entrypoint)
       exit
       ;;
     *)
