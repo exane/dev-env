@@ -86,7 +86,7 @@ RUN mv $HOME/.zshrc $HOME/.zshrc.orig \
     && rm $HOME/.zshrc.tmp $HOME/.zshrc.orig
 COPY inputrc $HOME/.inputrc
 COPY rvmrc $HOME/.rvmrc
-RUN chown -R $USER: $HOME
+RUN chown $USER: $HOME/.zshrc $HOME/.inputrc
 
 WORKDIR /work
 USER $USER

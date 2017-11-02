@@ -35,6 +35,10 @@ alias docker="docker-ssh.sh docker $*"
 # usage
 docker ssh # to run the image on the current dir
 docker ssh -p 3000:3000 # with docker run options
+# or
+docker ssh -p 3000 # short for -p 3000:3000
+docker ssh -- /bin/bash # use -- to append arguments
+# would equal to: $ docker run -it ... dev /bin/bash
 ```
 
 # Databases

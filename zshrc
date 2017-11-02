@@ -21,7 +21,7 @@ zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
 
-export PROMPT=$(whoami)" "$PROMPT
+export PROMPT=$(whoami)" "$(env | sed -En "s/PORT_(.*)=/\1/p" | xargs echo)" "$PROMPT
 
 stty sane
 stty erase ^H
