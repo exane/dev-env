@@ -28,3 +28,5 @@ touch ~/.yarnrc
 # shared volumes do not comply with symlinks -> disable it
 echo "--install.no-bin-links true" >> ~/.yarnrc
 echo "--add.no-bin-links true" >> ~/.yarnrc
+echo "--remove.no-bin-links true" >> ~/.yarnrc
+echo "--upgrade.no-bin-links true" >> ~/.yarnrc
