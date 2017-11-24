@@ -27,3 +27,5 @@ stty sane
 stty erase ^H
 
 mkdir -p /store/zsh/
+
+cf api https://api.aws.ie.a9s.eu

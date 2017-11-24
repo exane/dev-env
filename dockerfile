@@ -79,6 +79,10 @@ COPY node.sh /tmp
 RUN su -c /tmp/node.sh - $USER \
     && rm /tmp/node.sh
 
+COPY cf.sh /tmp
+RUN su -c /tmp/cf.sh - $USER \
+    && rm /tmp/cf.sh
+
 # Configs that might change often should be added last
 COPY zshrc $HOME/.zshrc.tmp
 RUN mv $HOME/.zshrc $HOME/.zshrc.orig \
