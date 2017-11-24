@@ -11,3 +11,5 @@ wget https://github.com/geofffranks/spruce/releases/download/v1.13.1/spruce-linu
 chmod +x $HOME/spruce
 
 sudo install spruce /usr/bin
+
+rm $HOME/spruce
