@@ -16,13 +16,11 @@ EOF
 )
 echo $nvm >> ~/.zshrc
 
-# Loading nvm into the current console to be able to install the latest node version
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-nvm install node  # install latest node version
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 
-# install yarn globally
-npm install -g yarn
+sudo apt-get update -y && sudo apt-get install yarn -y
 
 touch ~/.yarnrc
 # shared volumes do not comply with symlinks -> disable it
