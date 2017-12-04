@@ -11,7 +11,12 @@ arguments=""
 # docker ssh -p 3000 -> docker ssh -p 3000:3000
 transform_port_forwarding() {
   local port_option="$1"
-  echo " $port_option" | sed "s/-p \([0-9]\+\)/-p \1:\1 -e PORT_\1=/g"
+  # osx
+  if [ $(uname) = "Darwin" ]; then
+    echo " $port_option" | sed -E "s/-p ([0-9]+)/-p \1:\1 -e PORT_\1=/g"
+  else
+    echo " $port_option" | sed "s/-p \([0-9]\+\)/-p \1:\1 -e PORT_\1=/g"
+  fi
 }
 
 for arg in $*
