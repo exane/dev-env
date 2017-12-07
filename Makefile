@@ -3,7 +3,7 @@ build: .server.pid
 	$(MAKE) -s shutdown
 
 .server.pid:
-	{ ruby -run -ehttpd ~ -p8080 -b192.168.99.1 & echo $$! > $@; }
+	{ ruby -run -ehttpd ~ -p8080 -b192.168.1.13 & echo $$! > $@; }
 
 shutdown: .server.pid
 	kill `cat $<` && rm $<
