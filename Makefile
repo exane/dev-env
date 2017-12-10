@@ -1,4 +1,4 @@
-build: .server.pid
+build: .server.pid create-dockerfile
 	docker build -t dev --rm .
 	$(MAKE) -s shutdown
 
@@ -7,7 +7,12 @@ rebuild: .server.pid
 	$(MAKE) -s shutdown
 
 .server.pid:
-	{ ruby -run -ehttpd ~ -p8080 -b192.168.99.1 & echo $$! > $@; }
+	port=$$(ruby -e 'require "yaml"; puts YAML.load_file("./config.yml")["http"]["port"]'); \
+	address=$$(ruby -e 'require "yaml"; puts YAML.load_file("./config.yml")["http"]["address"]'); \
+	{ ruby -run -ehttpd ~ -p"$$port" -b"$$address" & echo $$! > $@; }
 
 shutdown: .server.pid
 	kill `cat $<` && rm $<
+
+create-dockerfile:
+	ruby -e 'require "erb"; puts ERB.new(File.read("./dockerfile.erb"), nil, "-").result' > dockerfile

@@ -15,6 +15,7 @@ chmod a+w -R /store
 ## Create docker image
 ```bash
 # build with
+cp config.yml.example config.yml  # and edit it
 make
 ```
 

@@ -1,3 +1,5 @@
+# vi:set filetype=dockerfile :
+
 # serve ~ under 192.168.99.1:8080
 # $ ruby -run -ehttpd ~ -p8080 -b192.168.99.1
 #
@@ -5,8 +7,13 @@
 # ssh private keys are saved
 FROM ubuntu:xenial
 
-ENV SERVE_HTTP_ADDRESS 192.168.99.1
-ENV SERVE_HTTP_PORT 8080
+<%
+  require "yaml"
+  config = YAML.load_file("./config.yml")
+-%>
+
+ENV SERVE_HTTP_ADDRESS <%= config["http"]["address"] %>
+ENV SERVE_HTTP_PORT <%= config["http"]["port"] %>
 ENV USER dev
 ENV HOME /home/$USER
 ENV LANG en_US.utf8
@@ -29,27 +36,28 @@ RUN apt-get update \
 # SSH config
 RUN apt-get update -y\
     && apt-get install -y openssh-client \
-    && apt-get autoremove -y \
     && mkdir $HOME/.ssh \
-    && curl http://$SERVE_HTTP_ADDRESS:$SERVE_HTTP_PORT/.ssh/id_rsa -o $HOME/.ssh/id_rsa \
-    && curl http://$SERVE_HTTP_ADDRESS:$SERVE_HTTP_PORT/.ssh/id_rsa_avarteq -o $HOME/.ssh/id_rsa_avarteq \
-    && chmod 400 $HOME/.ssh/id_rsa \
-    && chmod 400 $HOME/.ssh/id_rsa_avarteq
+    <% for key in config["ssh"]["keys"] -%>
+    && curl http://$SERVE_HTTP_ADDRESS:$SERVE_HTTP_PORT/.ssh/<%= key %> -o $HOME/.ssh/<%= key %> \
+    && chmod 400 $HOME/.ssh/<%= key %> \
+    && chown $USER $HOME/.ssh/<%= key %> \
+    <% end -%>
+    && apt-get autoremove -y
 COPY ssh_config /etc/ssh/ssh_config
 
 # GIT config
 RUN apt-get update \
-    && curl http://$SERVE_HTTP_ADDRESS:$SERVE_HTTP_PORT/.gitconfig -o $HOME/.gitconfig \
-    && curl http://$SERVE_HTTP_ADDRESS:$SERVE_HTTP_PORT/.gitignore_global -o $HOME/.gitignore_global \
+    <% for key in config["git"]["files"] -%>
+    && curl http://$SERVE_HTTP_ADDRESS:$SERVE_HTTP_PORT/<%= key %> -o $HOME/<%= key %> \
+    && chmod a+rwx $HOME/<%= key %> \
+    <% end -%>
     && apt-get -y install git git-flow \
-    && chown $USER: $HOME/.ssh/id_rsa \
+    <%= "&& chown $USER: $HOME/.ssh/#{config['ssh']['keys'].first}" %>\
     && eval $(ssh-agent -s) \
-    && ssh-add $HOME/.ssh/id_rsa \
+    <%= "&& ssh-add $HOME/.ssh/#{config['ssh']['keys'].first}" %>\
     && git clone git@github.com:avarteqgmbh/git_flow_hooks.git $HOME/git_flow_hooks \
     && git config --global gitflow.path.hooks $HOME/git_flow_hooks/hooks \
     && git config --global gitflow.prefix.versiontag v \
-    && chmod a+rwx $HOME/.gitconfig \
-    && chmod a+rwx $HOME/.gitignore_global \
     && apt-get autoremove -y
 
 # ZSH config

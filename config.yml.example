@@ -1,0 +1,12 @@
+# vi:set ft=yaml :
+http:  # http server for accessing ssh keys and config files in home dir
+  address: 192.168.99.1  # <%= `ifconfig | awk '/inet addr/{print substr($2,6)}' | head -1` %>
+  port: 8080
+ssh:
+  keys:  # lookup in ~/.ssh/
+  - id_rsa  # first sshkey should not require a passphrase -> used in dockerfile for private github repo
+  - id_rsa_avarteq
+git:
+  files:  # lookup in ~
+  - .gitconfig
+  - .gitignore_global

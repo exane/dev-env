@@ -1,2 +1,4 @@
+dockerfile
+config.yml
 package.box
 !Vagrantfile
