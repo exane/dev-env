@@ -68,12 +68,18 @@ RUN apt-get update \
     && chsh -s /bin/zsh $USER \
     && apt-get autoremove -y
 
-# general tools
+# general tools and dependencies
 RUN apt-get update -y \
     && apt-get install -y \
         mysql-client postgresql-client mongodb-clients \
         jq net-tools netcat telnet dnsutils inetutils-traceroute \
         apt-transport-https \
+        bzip2 g++ gcc make libc6-dev zlib1g-dev libyaml-dev libsqlite3-dev sqlite3 \
+        autoconf libgmp-dev libgdbm-dev libncurses5-dev automake libtool bison pkg-config \
+        libffi-dev libgmp-dev libreadline6-dev libssl-dev \
+        libmysqlclient-dev \
+        libxslt-dev libxml2-dev\
+        libmagickwand-dev imagemagick \
     && apt-get autoremove -y
 
 COPY php.sh /tmp
