@@ -2,6 +2,16 @@
 # Dev-env
 Dev env
 
+## Setup (Windows only)
+Put this into .zshrc to make docker available in your current terminal
+
+```bash
+: $(docker-machine env --shell dev 2> /dev/null)
+eval $("/c/Program Files/Docker Toolbox/docker-machine.exe" env --shell dev 2> /dev/null)
+
+alias docker-start=". /path/to/dev-env/bin/docker-start.sh"  # this alias will start docker-machine
+```
+
 ## Create dev-store container
 ```bash
 # used to store shared libs, such as rvm ruby versions
@@ -28,7 +38,7 @@ docker start dev-store # if not running
 docker run --rm -v $(PWD):/work --volumes-from dev-store -it dev
 ```
 
-## (Experimental) Run as docker ssh
+## Run as docker ssh
 ```bash
 # put bin/docker-ssh.sh into path
 alias docker="docker-ssh.sh docker $*"
