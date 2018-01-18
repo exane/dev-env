@@ -81,7 +81,11 @@ RUN apt-get update -y \
         libmysqlclient-dev \
         libxslt-dev libxml2-dev\
         libmagickwand-dev imagemagick \
+        python-pip python-dev build-essential \
     && apt-get autoremove -y
+
+RUN pip install --upgrade pip \
+    && pip install --upgrade virtualenv
 
 COPY php.sh /tmp
 RUN su -c /tmp/php.sh - $USER \
