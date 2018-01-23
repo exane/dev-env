@@ -87,6 +87,10 @@ RUN apt-get update -y \
 RUN pip install --upgrade pip \
     && pip install --upgrade virtualenv
 
+COPY elixir.sh /tmp
+RUN su -c /tmp/elixir.sh - $USER \
+    && rm /tmp/elixir.sh
+
 COPY php.sh /tmp
 RUN su -c /tmp/php.sh - $USER \
     && rm /tmp/php.sh
@@ -102,10 +106,6 @@ RUN su -c /tmp/node.sh - $USER \
 COPY cf.sh /tmp
 RUN su -c /tmp/cf.sh - $USER \
     && rm /tmp/cf.sh
-
-COPY elixir.sh /tmp
-RUN su -c /tmp/elixir.sh - $USER \
-    && rm /tmp/elixir.sh
 
 # Configs that might change often should be added last
 COPY zshrc $HOME/.zshrc.tmp
