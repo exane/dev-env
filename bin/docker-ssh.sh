@@ -24,7 +24,7 @@ do
     ssh)
       shift
       docker_options=$(echo " $@" | sed "s#\(.*\)\s--\s.*#\1#")
-      docker_entrypoint=$(echo " $@" | sed -n "s#\s--\s\(.*\)\$#\1#p")
+      docker_entrypoint=$(echo " $@" | sed -n "s#.*\s--\s\(.*\)\$#\1#p")
       docker_options=$(transform_port_forwarding "$docker_options")
       docker run \
         --add-host "dev.docker:192.168.99.100" \
