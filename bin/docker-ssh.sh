@@ -11,7 +11,6 @@ arguments=""
 # docker ssh -p 3000 -> docker ssh -p 3000:3000
 transform_port_forwarding() {
   local port_option="$1"
-  # osx
   if [ $(uname) = "Darwin" ]; then
     echo " $port_option" | sed -E "s/-p ([0-9]+)/-p \1:\1 -e PORT_\1=/g"
   else
@@ -24,8 +23,8 @@ do
   case $arg in
     ssh)
       shift
-      docker_options=$(echo " $@" | sed "s#\(.*\) -- .*#\1#")
-      docker_entrypoint=$(echo " $@" | sed "s#.*-- \(.*\)\$#\1#")
+      docker_options=$(echo " $@" | sed "s#\(.*\)\s--\s.*#\1#")
+      docker_entrypoint=$(echo " $@" | sed -n "s#\s--\s\(.*\)\$#\1#p")
       docker_options=$(transform_port_forwarding "$docker_options")
       docker run \
         --add-host "dev.docker:192.168.99.100" \
