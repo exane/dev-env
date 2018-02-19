@@ -21,10 +21,3 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/source
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 
 sudo apt-get update -y && sudo apt-get install yarn -y
-
-touch ~/.yarnrc
-# shared volumes do not comply with symlinks -> disable it
-echo "--install.no-bin-links true" >> ~/.yarnrc
-echo "--add.no-bin-links true" >> ~/.yarnrc
-echo "--remove.no-bin-links true" >> ~/.yarnrc
-echo "--upgrade.no-bin-links true" >> ~/.yarnrc
