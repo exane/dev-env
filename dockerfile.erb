@@ -53,9 +53,9 @@ RUN apt-get update \
     && chmod a+rwx $HOME/<%= key %> \
     <% end -%>
     && apt-get -y install git git-flow \
-    <%= "&& chown $USER: $HOME/.ssh/#{config['ssh']['keys'].first}" %>\
+    && chown $USER: $HOME/.ssh/<%= config['ssh']['keys'].first %>\
     && eval $(ssh-agent -s) \
-    <%= "&& ssh-add $HOME/.ssh/#{config['ssh']['keys'].first}" %>\
+    && ssh-add $HOME/.ssh/<%= config['ssh']['keys'].first %>\
     && git clone git@github.com:avarteqgmbh/git_flow_hooks.git $HOME/git_flow_hooks \
     && git config --global gitflow.path.hooks $HOME/git_flow_hooks/hooks \
     && git config --global gitflow.prefix.versiontag v \
@@ -87,25 +87,11 @@ RUN apt-get update -y \
 RUN pip install --upgrade pip \
     && pip install --upgrade virtualenv
 
-COPY elixir.sh /tmp
-RUN su -c /tmp/elixir.sh - $USER \
-    && rm /tmp/elixir.sh
-
-COPY php.sh /tmp
-RUN su -c /tmp/php.sh - $USER \
-    && rm /tmp/php.sh
-
-COPY ruby.sh /tmp
-RUN su -c /tmp/ruby.sh - $USER \
-    && rm /tmp/ruby.sh
-
-COPY node.sh /tmp
-RUN su -c /tmp/node.sh - $USER \
-    && rm /tmp/node.sh
-
-COPY cf.sh /tmp
-RUN su -c /tmp/cf.sh - $USER \
-    && rm /tmp/cf.sh
+<% for m in config["modules"] -%>
+COPY modules/<%= m %>.sh /tmp
+RUN su -c /tmp/<%= m %>.sh - $USER \
+    && rm /tmp/<%= m %>.sh
+<% end -%>
 
 # Configs that might change often should be added last
 COPY zshrc $HOME/.zshrc.tmp
