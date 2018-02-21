@@ -1,8 +1,12 @@
-wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb
+wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb 
+sudo dpkg -i erlang-solutions_1.0_all.deb
+rm erlang-solutions_1.0_all.deb
+
 sudo apt-get update -y
 sudo apt-get install -y esl-erlang elixir
 
-sudo apt-get install inotify-tools
+# still waiting for inotify support in docker...
+# sudo apt-get install inotify-tools
 
 # install hex package manager
 mix local.hex --force

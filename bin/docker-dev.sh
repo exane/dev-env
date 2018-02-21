@@ -26,8 +26,9 @@ do
       docker_options=$(echo " $@" | sed "s#\(.*\)\s--\s.*#\1#")
       docker_entrypoint=$(echo " $@" | sed -n "s#.*\s--\s\(.*\)\$#\1#p")
       docker_options=$(transform_port_forwarding "$docker_options")
+      address=$(ruby -e 'require "yaml"; puts YAML.load_file("#{File.expand_path(File.dirname(__FILE__))}/config.yml")["docker"]["net"]')
       docker run \
-        --net "host" \
+        --add-host "dev.docker:$address" \
         -v $(PWD):/work \
         --volumes-from dev-store $(echo " $docker_options") \
         -it --rm dev $(echo " $docker_entrypoint")
