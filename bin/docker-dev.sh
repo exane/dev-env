@@ -8,7 +8,7 @@ shift
 arguments=""
 
 # expands port arguments
-# docker ssh -p 3000 -> docker ssh -p 3000:3000
+# docker dev -p 3000 -> docker dev -p 3000:3000
 transform_port_forwarding() {
   local port_option="$1"
   if [ $(uname) = "Darwin" ]; then
@@ -21,7 +21,7 @@ transform_port_forwarding() {
 for arg in $*
 do
   case $arg in
-    ssh)
+    dev)
       shift
       docker_options=$(echo " $@" | sed "s#\(.*\)\s--\s.*#\1#")
       docker_entrypoint=$(echo " $@" | sed -n "s#.*\s--\s\(.*\)\$#\1#p")

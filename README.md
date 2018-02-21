@@ -38,17 +38,17 @@ docker start dev-store # if not running
 docker run --rm -v $(PWD):/work --volumes-from dev-store -it dev
 ```
 
-## Run as docker ssh
+## Run as docker dev
 ```bash
-# put bin/docker-ssh.sh into path
-alias docker="docker-ssh.sh docker $*"
+# put bin/docker-dev.sh into path
+alias docker="docker-dev.sh docker $*"
 
 # usage
-docker ssh # to run the image on the current dir
-docker ssh -p 3000:3000 # with docker run options
+docker dev # to run the image on the current dir
+docker dev -p 3000:3000 # with docker run options
 # or
-docker ssh -p 3000 # short for -p 3000:3000
-docker ssh -- /bin/bash # use -- to append arguments
+docker dev -p 3000 # short for -p 3000:3000
+docker dev -- /bin/bash # use -- to append arguments
 # would equal to: $ docker run -it ... dev /bin/bash
 ```
 
