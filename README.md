@@ -1,8 +1,7 @@
 
 # Dev-env
-Dev env
 
-## Setup (Windows only)
+## Setup (Windows 7 / docker-machine only )
 Put this into .zshrc to make docker available in your current terminal
 
 ```bash
@@ -31,9 +30,6 @@ make
 
 ## Run image
 ```bash
-# run as
-docker start dev-store # if not running
-
 # Starts a new docker dev container and mounts the current working dir
 docker run --rm -v $(PWD):/work --volumes-from dev-store -it dev
 ```
