@@ -4,6 +4,9 @@ http:
   # Must be accessible from within containers
   address: 192.168.99.1  # <%= `ifconfig | awk '/inet addr/{print substr($2,6)}' | head -1` %>
   port: 8080
+auth:  # basic auth for serving your content over http while building the image
+  user: username
+  password: password
 docker:
   # The network the containers use to communicate. Available inside as http://dev.docker
   # For docker-machine (boot2docker) this would be default 192.168.99.100

@@ -1,17 +1,15 @@
-build: .server.pid create-dockerfile
+build: build.pid create-dockerfile
 	docker build -t dev --rm .
 	$(MAKE) -s shutdown
 
-rebuild: .server.pid
+rebuild: build.pid
 	docker build --no-cache -t dev --rm .
 	$(MAKE) -s shutdown
 
-.server.pid:
-	port=$$(ruby -e 'require "yaml"; puts YAML.load_file("./config.yml")["http"]["port"]'); \
-	address=$$(ruby -e 'require "yaml"; puts YAML.load_file("./config.yml")["http"]["address"]'); \
-	{ ruby -run -ehttpd ~ -p"$$port" -b"$$address" & echo $$! > $@; }
+build.pid:
+	./bin/build& echo $$! > $@
 
-shutdown: .server.pid
+shutdown: build.pid
 	kill `cat $<` && rm $<
 
 create-dockerfile:

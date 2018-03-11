@@ -1,9 +1,6 @@
 # vi:set filetype=dockerfile :
 
-# serve ~ under 192.168.99.1:8080
-# $ ruby -run -ehttpd ~ -p8080 -b192.168.99.1
-#
-# NEVER PUBLISH DOCKER IMAGE
+# NEVER PUBLISH THE DOCKER IMAGE
 # ssh private keys are saved
 FROM ubuntu:xenial
 
@@ -14,6 +11,9 @@ FROM ubuntu:xenial
 
 ENV SERVE_HTTP_ADDRESS <%= config["http"]["address"] %>
 ENV SERVE_HTTP_PORT <%= config["http"]["port"] %>
+ENV BASIC_USERNAME <%= config["auth"]["user"] %>
+ENV BASIC_PASSWORD <%= config["auth"]["password"] %>
+ENV BUILD_URL http://$BASIC_USERNAME:$BASIC_PASSWORD@$SERVE_HTTP_ADDRESS:$SERVE_HTTP_PORT
 ENV USER dev
 ENV HOME /home/$USER
 ENV LANG en_US.utf8
@@ -39,7 +39,7 @@ RUN apt-get update -y\
     && apt-get install -y openssh-client \
     && mkdir $HOME/.ssh \
     <% for key in config["ssh"]["keys"] -%>
-    && curl http://$SERVE_HTTP_ADDRESS:$SERVE_HTTP_PORT/.ssh/<%= key %> -o $HOME/.ssh/<%= key %> \
+    && curl $BUILD_URL/.ssh/<%= key %> -o $HOME/.ssh/<%= key %> \
     && chmod 400 $HOME/.ssh/<%= key %> \
     && chown $USER $HOME/.ssh/<%= key %> \
     <% end -%>
@@ -49,7 +49,7 @@ COPY ssh_config /etc/ssh/ssh_config
 # GIT config
 RUN apt-get update \
     <% for key in config["git"]["files"] -%>
-    && curl http://$SERVE_HTTP_ADDRESS:$SERVE_HTTP_PORT/<%= key %> -o $HOME/<%= key %> \
+    && curl $BUILD_URL/<%= key %> -o $HOME/<%= key %> \
     && chmod a+rwx $HOME/<%= key %> \
     <% end -%>
     && apt-get -y install git git-flow \
