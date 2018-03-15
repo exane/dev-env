@@ -24,7 +24,7 @@ RUN apt-get update \
     && apt-get install -y vim sudo software-properties-common python-software-properties apt-utils \
       wget curl \
       manpages manpages-dev freebsd-manpages funny-manpages man2html manpages-posix manpages-posix-dev \
-      locales \
+      locales tzdata \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
     && update-locale LC_ALL=en_US.UTF-8 \
     && echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
@@ -32,6 +32,7 @@ RUN apt-get update \
     && adduser $USER sudo \
     && echo "Europe/Berlin" > /etc/timezone \
     && echo "set term=ansi" >> $HOME/.vimrc \
+    && ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
     && apt-get autoremove -y
 
 # SSH config

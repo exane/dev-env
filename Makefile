@@ -7,7 +7,7 @@ rebuild: build.pid
 	$(MAKE) -s shutdown
 
 build.pid:
-	./bin/build& echo $$! > $@
+	ruby ./bin/build.rb& echo $$! > $@
 
 shutdown: build.pid
 	kill `cat $<` && rm $<

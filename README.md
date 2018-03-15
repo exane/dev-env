@@ -103,3 +103,12 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=sin
 ```shell
 curl -uelastic:changeme http://192.168.99.100:9200
 ```
+
+## Redis
+### Install:
+```shell
+docker run --name redis -p 6379:6379 -d redis
+```
+
+### Usage:
+TODO

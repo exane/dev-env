@@ -1,5 +1,3 @@
-#!/bin/ruby
-
 require "yaml"
 require "webrick"
 config = YAML.load_file("./config.yml")
