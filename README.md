@@ -59,9 +59,9 @@ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mariadb
 ### Usage:
 
 ```shell
-mysql -h 192.168.99.100 -uroot
+mysql -h dev.docker -uroot
 # or non-interactively
-mysql -h 192.168.99.100 -uroot -proot
+mysql -h dev.docker -uroot -proot
 ```
 
 ## Postgresql
@@ -73,9 +73,9 @@ docker run --name postgresql -p 5432:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_
 ### Usage:
 
 ```shell
-psql -h 192.168.99.100 -Uroot
+psql -h dev.docker -Uroot
 # or non-interactively
-PGPASSWORD=root psql -h 192.168.99.100 -Uroot
+PGPASSWORD=root psql -h dev.docker -Uroot
 ```
 
 ## Mongodb
@@ -87,9 +87,9 @@ docker run --name mongodb -p 27017:27017 -d mongo
 ### Usage:
 
 ```shell
-mongo --host 192.168.99.100
+mongo --host dev.docker
 # or non-interactively
-mongo --host 192.168.99.100 -uroot -proot
+mongo --host dev.docker -uroot -proot
 ```
 
 ## Elasticsearch
@@ -101,7 +101,7 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=sin
 ### Usage:
 
 ```shell
-curl -uelastic:changeme http://192.168.99.100:9200
+curl -uelastic:changeme http://dev.docker:9200
 ```
 
 ## Redis
