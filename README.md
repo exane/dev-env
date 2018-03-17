@@ -50,6 +50,13 @@ docker dev -- /bin/bash # use -- to append arguments
 
 # Databases
 
+## Install services
+```shell
+docker setup **mysql**/**postgres**/**mongodb**/**etc**
+```
+
+or manually
+
 ## Mysql (Mariadb)
 ### Install:
 ```shell
@@ -67,7 +74,7 @@ mysql -h dev.docker -uroot -proot
 ## Postgresql
 ### Install:
 ```shell
-docker run --name postgresql -p 5432:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres
+docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres
 ```
 
 ### Usage:

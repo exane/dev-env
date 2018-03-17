@@ -35,6 +35,48 @@ do
         -it --rm dev $(echo " $docker_entrypoint")
       exit
       ;;
+    setup)
+      shift
+      for arg in $*
+      do
+        case $arg in
+          mysql)
+            echo "Setup MySQL docker container..."
+            docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mariadb
+            echo "Setup done and running."
+            exit
+            ;;
+          postgres)
+            echo "Setup PostgreSQL docker container..."
+            docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres
+            echo "Setup done and running."
+            exit
+            ;;
+          mongodb)
+            echo "Setup MongoDB docker container..."
+            docker run --name mongodb -p 27017:27017 -d mongo
+            echo "Setup done and running."
+            exit
+            ;;
+          elasticsearch)
+            echo "Setup Elasticsearch docker container..."
+            docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e "ES_JAVA_OPTS=-Xms512m" -d docker.elastic.co/elasticsearch/elasticsearch:5.6.1
+            echo "Setup done and running."
+            exit
+            ;;
+          redis)
+            echo "Setup Redis docker container..."
+            docker run --name redis -p 6379:6379 -d redis
+            echo "Setup done and running."
+            exit
+            ;;
+          *)
+            echo "docker setup: Missmatched or missing service name. Given: $arg"
+            exit
+            ;;
+        esac
+      done
+      ;;
     *)
       arguments="$arguments $arg"
       ;;
