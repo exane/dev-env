@@ -52,7 +52,7 @@ docker dev -- /bin/bash # use -- to append arguments
 
 ## Install services
 ```shell
-docker setup **mysql**/**postgres**/**mongodb**/**etc**
+docker setup mysql/postgres/mongodb/etc
 ```
 
 or manually
