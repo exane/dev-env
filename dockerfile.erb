@@ -73,7 +73,7 @@ RUN apt-get update \
 # general tools and dependencies
 RUN apt-get update -y \
     && apt-get install -y \
-        mysql-client postgresql-client mongodb-clients \
+        mysql-client postgresql-client mongodb-clients redis-tools \
         jq net-tools netcat telnet dnsutils inetutils-traceroute \
         apt-transport-https \
         bzip2 g++ gcc make libc6-dev zlib1g-dev libyaml-dev libsqlite3-dev sqlite3 \
