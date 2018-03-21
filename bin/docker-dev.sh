@@ -58,6 +58,12 @@ do
             echo "Setup done and running."
             exit
             ;;
+          mongodb34)
+            echo "Setup MongoDB v3.4 on port 27018 as docker container..."
+            docker run --name mongodb -p 27018:27017 -d mongo:3.4
+            echo "Setup done and running."
+            exit
+            ;;
           elasticsearch)
             echo "Setup Elasticsearch docker container..."
             docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e "ES_JAVA_OPTS=-Xms512m" -d docker.elastic.co/elasticsearch/elasticsearch:5.6.1
