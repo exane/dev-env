@@ -88,11 +88,20 @@ RUN apt-get update -y \
 RUN pip install --upgrade pip \
     && pip install --upgrade virtualenv
 
+RUN echo "\
+export CF_API=<%= config["cf"]["api"] %>; \
+export CF_USER=<%= config["cf"]["user"] %>; \
+export CF_PASSWORD=<%= config["cf"]["password"] %>; \
+" > /tmp/env.sh \
+  && chmod a+rwx /tmp/env.sh
+
 <% for m in config["modules"] -%>
 COPY modules/<%= m %>.sh /tmp
 RUN su -c /tmp/<%= m %>.sh - $USER \
     && rm /tmp/<%= m %>.sh
 <% end -%>
+
+RUN rm /tmp/env.sh
 
 # Configs that might change often should be added last
 COPY zshrc $HOME/.zshrc.tmp

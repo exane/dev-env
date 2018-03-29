@@ -17,6 +17,11 @@ ssh:
   keys:  # lookup in ~/.ssh/
   - id_rsa  # first sshkey should not require a passphrase -> used in dockerfile for private github repo
   - id_rsa_avarteq
+cf:
+  # cf login credentials - only relevant with cf module
+  api: https://api.aws.ie.a9s.eu
+  user: xxx
+  password: xxx
 git:
   files:  # lookup in ~
   - .gitconfig

@@ -28,7 +28,3 @@ stty sane
 stty erase ^H
 
 mkdir -p /store/zsh/
-
-if [ -f manifest.yml ]; then
-  cf api https://api.aws.ie.a9s.eu
-fi

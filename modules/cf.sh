@@ -1,3 +1,5 @@
+#!/bin/bash
+source /tmp/env.sh
 wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
 echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
 
@@ -10,3 +12,12 @@ chmod +x $HOME/spruce
 sudo install spruce /usr/bin
 
 rm $HOME/spruce
+
+script=$(cat <<-EOF
+  if [ -f manifest.yml ] || [ -f manifest.yml.example ]; then
+    cf api $CF_API;
+    cf auth $CF_USER $CF_PASSWORD;
+  fi;
+EOF
+)
+echo $script >> ~/.zshrc
