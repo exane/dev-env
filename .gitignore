@@ -1,4 +1,4 @@
 dockerfile
 config.yml
-package.box
-!Vagrantfile
+.build/*
+!.build/.gitkeep

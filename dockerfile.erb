@@ -39,7 +39,7 @@ RUN apt-get update \
 RUN apt-get update -y\
     && apt-get install -y openssh-client \
     && mkdir $HOME/.ssh \
-    <% for key in config["ssh"]["keys"] -%>
+    <% for key in config["ssh"] -%>
     && curl $BUILD_URL/.ssh/<%= key %> -o $HOME/.ssh/<%= key %> \
     && chmod 400 $HOME/.ssh/<%= key %> \
     && chown $USER $HOME/.ssh/<%= key %> \
@@ -49,14 +49,14 @@ COPY ssh_config /etc/ssh/ssh_config
 
 # GIT config
 RUN apt-get update \
-    <% for key in config["git"]["files"] -%>
+    <% for key in config["git"] -%>
     && curl $BUILD_URL/<%= key %> -o $HOME/<%= key %> \
     && chmod a+rwx $HOME/<%= key %> \
     <% end -%>
     && apt-get -y install git git-flow \
-    && chown $USER: $HOME/.ssh/<%= config['ssh']['keys'].first %>\
+    && chown $USER: $HOME/.ssh/<%= config['ssh'].first %>\
     && eval $(ssh-agent -s) \
-    && ssh-add $HOME/.ssh/<%= config['ssh']['keys'].first %>\
+    && ssh-add $HOME/.ssh/<%= config['ssh'].first %>\
     && git clone git@github.com:avarteqgmbh/git_flow_hooks.git $HOME/git_flow_hooks \
     && git config --global gitflow.path.hooks $HOME/git_flow_hooks/hooks \
     && git config --global gitflow.prefix.versiontag v \
@@ -88,20 +88,19 @@ RUN apt-get update -y \
 RUN pip install --upgrade pip \
     && pip install --upgrade virtualenv
 
-RUN echo "\
-export CF_API=<%= config["cf"]["api"] %>; \
-export CF_USER=<%= config["cf"]["user"] %>; \
-export CF_PASSWORD=<%= config["cf"]["password"] %>; \
-" > /tmp/env.sh \
-  && chmod a+rwx /tmp/env.sh
-
-<% for m in config["modules"] -%>
-COPY modules/<%= m %>.sh /tmp
+<%
+require "erb"
+for m in config["modules"]
+  origin = "modules/#{m}.sh"
+  target = ".build/#{m}.sh"
+  File.open target, "w+" do |file|
+    file.write ERB.new(File.read(origin), nil, "-").result
+  end
+-%>
+COPY <%= target %> /tmp
 RUN su -c /tmp/<%= m %>.sh - $USER \
     && rm /tmp/<%= m %>.sh
 <% end -%>
-
-RUN rm /tmp/env.sh
 
 # Configs that might change often should be added last
 COPY zshrc $HOME/.zshrc.tmp

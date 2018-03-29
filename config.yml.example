@@ -14,7 +14,7 @@ docker:
   # a workaround
   net: 172.17.0.1
 ssh:
-  keys:  # lookup in ~/.ssh/
+  # lookup in ~/.ssh/
   - id_rsa  # first sshkey should not require a passphrase -> used in dockerfile for private github repo
   - id_rsa_avarteq
 cf:
@@ -23,7 +23,7 @@ cf:
   user: xxx
   password: xxx
 git:
-  files:  # lookup in ~
+  # lookup in ~
   - .gitconfig
   - .gitignore_global
 modules:
