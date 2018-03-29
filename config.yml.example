@@ -19,7 +19,7 @@ ssh:
   - id_rsa_avarteq
 cf:
   # cf login credentials - only relevant with cf module
-  api: https://api.aws.ie.a9s.eu
+  api: https://api.de.a9s.eu
   user: xxx
   password: xxx
 git:
