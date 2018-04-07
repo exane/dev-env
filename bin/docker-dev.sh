@@ -12,9 +12,9 @@ arguments=""
 transform_port_forwarding() {
   local port_option="$1"
   if [ $(uname) = "Darwin" ]; then
-    echo " $port_option" | sed -E "s/-p ([0-9]+)/-p \1:\1 -e PORT_\1=/g"
+    echo " $port_option" | sed -E "s/-p ([0-9]+)/-p \1:\1 -e PORT_\1=1/g"
   else
-    echo " $port_option" | sed "s/-p \([0-9]\+\)/-p \1:\1 -e PORT_\1=/g"
+    echo " $port_option" | sed "s/-p \([0-9]\+\)/-p \1:\1 -e PORT_\1=1/g"
   fi
 }
 
@@ -84,10 +84,10 @@ do
       done
       ;;
     *)
-      arguments="$arguments $arg"
+      break
       ;;
   esac
 done
 
 # Now call the actual command
-$command $arguments
+$command "$@"

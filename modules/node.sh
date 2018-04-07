@@ -1,3 +1,5 @@
+set -eu
+
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 # echo 'export NVM_DIR="$HOME/.nvm"' >> $HOME/.zshrc
 # echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >> $HOME/.zshrc

@@ -48,6 +48,14 @@ docker dev -- /bin/bash # use -- to append arguments
 # would equal to: $ docker run -it ... dev /bin/bash
 ```
 
+## Test docker image
+```bash
+gem install bundle
+bundle
+
+rspec
+```
+
 # Databases
 
 ## Install services
