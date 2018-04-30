@@ -10,3 +10,6 @@ sudo apt-get install -y php7.1-common php7.1-mysql php7.1-fpm php7.1-curl php7.1
 # install composer
 sudo chmod a+w /usr/local/bin
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# php.ini config
+sudo sed -i 's:upload_max_filesize.*:upload_max_filesize = 200M:' /etc/php/7.1/cli/php.ini
