@@ -18,6 +18,14 @@ transform_port_forwarding() {
   fi
 }
 
+target_dir() {
+  if [[ $OSTYPE == "cygwin" ]]; then
+    echo `cygpath -m $(pwd)`
+  else
+    echo `pwd`
+  fi
+}
+
 for arg in $*
 do
   case $arg in
@@ -30,7 +38,7 @@ do
       address=$(ruby -e 'require "yaml"; puts YAML.load_file("#{ENV[%(SCRIPT_DIR)]}/../config.yml")["docker"]["net"]')
       docker run \
         --add-host "dev.docker:$address" \
-        -v $(PWD):/work \
+        -v $(target_dir):/work \
         --volumes-from dev-store $(echo " $docker_options") \
         -it --rm dev $(echo " $docker_entrypoint")
       exit
