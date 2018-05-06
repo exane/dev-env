@@ -30,10 +30,11 @@ stty erase ^H
 
 mkdir -p /store/zsh/
 
-vim() {
-  # vim hack to make vim color scheme usable in docker.
-  # TERM=linux has to be set for vim (does not work if set in vimrc).
-  # If set globally it fucks zsh and everything else.
-  # So this wrapper it is.
-  sudo TERM=linux /usr/bin/vim $@
-}
+# vim hack to make vim color scheme usable in docker.
+# TERM=linux has to be set for vim (does not work if set in vimrc).
+# If set globally it fucks zsh and everything else.
+# So this wrapper it is.
+export EDITOR="TERM=linux vim"
+export VISUAL="$EDITOR"
+alias vim="sudo $EDITOR"
+git config --global --replace-all core.editor "$EDITOR"
