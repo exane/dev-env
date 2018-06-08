@@ -88,7 +88,9 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14
         python-pip python-dev build-essential \
     && apt-get autoremove -y
 
-RUN pip install --upgrade pip \
+RUN mkdir -p $HOME/.cache \
+    && chmod -R a+rwx $HOME/.cache \
+    && pip install --upgrade pip==9.0.3 \
     && pip install --upgrade virtualenv
 
 <%
