@@ -56,6 +56,12 @@ bundle
 rspec
 ```
 
+## Enable inotify support (windows host)
+[https://pypi.org/project/docker-windows-volume-watcher/](https://pypi.org/project/docker-windows-volume-watcher/)
+```
+pip install docker-windows-volume-watcher
+```
+
 # Databases
 
 ## Install services

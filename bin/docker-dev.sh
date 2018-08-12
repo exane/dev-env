@@ -26,11 +26,41 @@ target_dir() {
   fi
 }
 
+docker_volume_watcher_installed() {
+  docker-volume-watcher -h > /dev/null 2> /dev/null
+  if [[ $? == 0 ]]; then
+    echo 1
+  else
+    echo 0
+  fi
+}
+
+docker_volume_watcher_running() {
+  if [[ $(pgrep docker-volume) > 0 ]]; then
+    echo 1
+  else
+    echo 0
+  fi
+}
+
+start_docker_volume_watcher() {
+  if [[ $(docker_volume_watcher_installed) == 1 && $(docker_volume_watcher_running) == 0 ]]; then
+    echo Starting docker-volume-watcher...
+    docker-volume-watcher 2> /dev/null&
+  fi
+}
+
 for arg in $*
 do
   case $arg in
+    dev-stop)
+      shift
+      pkill docker-volume
+      exit
+      ;;
     dev)
       shift
+      start_docker_volume_watcher
       docker_options=$(echo " $@" | sed "s#\(.*\)\s--\s.*#\1#")
       docker_entrypoint=$(echo " $@" | sed -n "s#.*\s--\s\(.*\)\$#\1#p")
       docker_options=$(transform_port_forwarding "$docker_options")
