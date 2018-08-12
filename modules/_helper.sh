@@ -15,3 +15,7 @@ make_persistant() {
 config() {
   echo $1 >> /home/dev/.zshrc
 }
+
+add_path() {
+  config "export PATH=$PATH:$1"
+}
