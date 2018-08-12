@@ -94,6 +94,9 @@ RUN mkdir -p $HOME/.cache \
     && pip install --upgrade pip==9.0.3 \
     && pip install --upgrade virtualenv
 
+COPY modules/_helper.sh /tmp
+RUN su -c /tmp/_helper.sh - $USER
+
 <%
 require "erb"
 for m in config["modules"]
@@ -107,6 +110,7 @@ COPY <%= target %> /tmp
 RUN su -c /tmp/<%= m %>.sh - $USER \
     && rm /tmp/<%= m %>.sh
 <% end -%>
+RUN rm /tmp/_helper.sh
 
 # Configs that might change often should be added last
 COPY zshrc $HOME/.zshrc.tmp

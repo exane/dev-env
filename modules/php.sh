@@ -1,4 +1,6 @@
+#!/bin/bash
 set -eu
+source "/tmp/_helper.sh"
 
 # sudo apt-get install -y python-software-properties
 LC_ALL=C.UTF-8 sudo add-apt-repository -y ppa:ondrej/php

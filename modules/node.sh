@@ -1,20 +1,14 @@
+#!/bin/bash
 set -eu
+source "/tmp/_helper.sh"
 
 # nvm install
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 
-nvm=$(cat <<-EOF
-  if [ ! -d /store/nvm ]; then
-    mkdir /store/nvm/;
-    cp -r ~/.nvm/* /store/nvm;
-  fi;
-  rm -rf ~/.nvm;
-  ln -s /store/nvm -T ~/.nvm;
-  export NVM_DIR=/store/nvm;
-  nvm use default;
-EOF
-)
-echo $nvm >> ~/.zshrc
+make_persistant ".nvm"
+# Workaround: nvm is not compatible with the npm config "prefix" option: currently set to [...]
+config "export NVM_DIR=/store/.nvm"
+config "nvm use default"
 
 # yarn install
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -23,14 +17,5 @@ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 
 sudo apt-get update -y && sudo apt-get install yarn -y
 
-yarn=$(cat <<-EOF
-  if [ ! -d /store/config ]; then
-    mkdir /store/config/;
-    cp -r ~/.config/* /store/config;
-  fi;
-  rm -rf ~/.config;
-  ln -s /store/config -T ~/.config;
-  export PATH=$PATH:~/.config/yarn/global/node_modules/.bin
-EOF
-)
-echo $yarn >> ~/.zshrc
+make_persistant ".config"
+config "export PATH=$PATH:~/.config/yarn/global/node_modules/.bin"

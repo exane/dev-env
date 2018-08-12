@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eu
+source "/tmp/_helper.sh"
 
 wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
 echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
@@ -17,11 +18,8 @@ rm $HOME/spruce
 <%
 config = YAML.load_file("./config.yml")
 -%>
-script=$(cat <<-EOF
-  if [ -f manifest.yml ] || [ -f manifest.yml.example ]; then
-    cf api <%= config["cf"]["api"] %>;
-    cf auth <%= config["cf"]["user"] %> <%= config["cf"]["password"] %>;
-  fi;
-EOF
-)
-echo $script >> ~/.zshrc
+
+config "if [ -f manifest.yml ] || [ -f manifest.yml.example ]; then"
+config "  cf api <%= config['cf']['api'] %>"
+config "  cf auth <%= config['cf']['user'] %> <%= config['cf']['password'] %>"
+config "fi"
