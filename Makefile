@@ -10,7 +10,8 @@ build.pid:
 	{ ruby ./bin/build.rb& echo $$! > $@; }
 
 shutdown: build.pid
-	kill `cat $<` && rm $<
+	kill `cat $<` || true
+	rm $< || true
 
 create-dockerfile:
 	ruby -e 'require "erb"; puts ERB.new(File.read("./dockerfile.erb"), nil, "-").result' > dockerfile
