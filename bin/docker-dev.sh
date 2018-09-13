@@ -90,6 +90,12 @@ do
             echo "Setup done and running."
             exit
             ;;
+          postgres94)
+            echo "Setup PostgreSQL 9.4 on port 5433 docker container..."
+            docker run --name postgres -p 5433:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres:9.4
+            echo "Setup done and running."
+            exit
+            ;;
           mongodb)
             echo "Setup MongoDB docker container..."
             docker run --name mongodb -p 27017:27017 -d mongo
