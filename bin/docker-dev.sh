@@ -90,9 +90,15 @@ do
             echo "Setup done and running."
             exit
             ;;
+          postgres96)
+            echo "Setup PostgreSQL 9.6 on port 5434 docker container..."
+            docker run --name postgres96 -p 5434:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres:9.6
+            echo "Setup done and running."
+            exit
+            ;;
           postgres94)
             echo "Setup PostgreSQL 9.4 on port 5433 docker container..."
-            docker run --name postgres -p 5433:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres:9.4
+            docker run --name postgres94 -p 5433:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres:9.4
             echo "Setup done and running."
             exit
             ;;
