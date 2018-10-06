@@ -8,6 +8,7 @@ eval "$(ssh-agent -s)" > /dev/null
 source $ZSH/oh-my-zsh.sh
 
 export TERM=xterm
+export SHELL=zsh
 
 unsetopt prompt_cr prompt_sp
 
