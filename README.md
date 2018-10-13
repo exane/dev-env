@@ -62,6 +62,13 @@ rspec
 pip install docker-windows-volume-watcher
 ```
 
+## Open files issue with host
+```
+# closes all open files that docker has opened over shared volume
+# Works only on windows for now (no issues on linux and osx so far)
+$ docker fix
+```
+
 # Databases
 
 ## Install services

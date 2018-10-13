@@ -53,6 +53,16 @@ start_docker_volume_watcher() {
 for arg in $*
 do
   case $arg in
+    fix)
+      shift
+      if [[ $OSTYPE == "cygwin" ]]; then
+        openfiles
+        openfiles /disconnect /a $(whoami)
+      else
+        echo "Works only on windows for now."
+      fi
+      exit
+      ;;
     dev-stop)
       shift
       pkill docker-volume
