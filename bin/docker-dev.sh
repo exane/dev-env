@@ -50,6 +50,25 @@ start_docker_volume_watcher() {
   fi
 }
 
+print_setup_usage() {
+  local services=(
+    mysql
+    postgresql
+    postgresql94
+    postgresql96
+    mongodb
+    mongodb34
+    elasticsearch
+    redis
+  )
+
+  echo 'Available services are:'
+  for service in ${services[*]}; do
+    echo "=> $service"
+  done
+  echo 'e.g. docker setup postgresql96'
+}
+
 for arg in $*
 do
   case $arg in
@@ -85,6 +104,10 @@ do
       ;;
     setup)
       shift
+      if [ "${#*}" == 0 ]; then
+        print_setup_usage
+        exit
+      fi
       for arg in $*
       do
         case $arg in
@@ -94,21 +117,21 @@ do
             echo "Setup done and running."
             exit
             ;;
-          postgres)
+          postgresql)
             echo "Setup PostgreSQL docker container..."
-            docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres
+            docker run --name postgresql -p 5432:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres
             echo "Setup done and running."
             exit
             ;;
-          postgres96)
+          postgresql96)
             echo "Setup PostgreSQL 9.6 on port 5434 docker container..."
-            docker run --name postgres96 -p 5434:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres:9.6
+            docker run --name postgresql96 -p 5434:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres:9.6
             echo "Setup done and running."
             exit
             ;;
-          postgres94)
+          postgresql94)
             echo "Setup PostgreSQL 9.4 on port 5433 docker container..."
-            docker run --name postgres94 -p 5433:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres:9.4
+            docker run --name postgresql94 -p 5433:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres:9.4
             echo "Setup done and running."
             exit
             ;;
@@ -138,6 +161,7 @@ do
             ;;
           *)
             echo "docker setup: Missmatched or missing service name. Given: $arg"
+            print_setup_usage
             exit
             ;;
         esac

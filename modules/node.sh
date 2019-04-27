@@ -16,7 +16,9 @@ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 
-sudo apt-get update -y && sudo apt-get install yarn -y
+# yarn v1.9.2 linker is incredibly slow (10 minutes linking..)
+# https://github.com/yarnpkg/yarn/issues/6177
+sudo apt-get update -y && sudo apt-get install yarn=1.7.0-1 -y
 
 make_persistant ".config"
 add_path "~/.config/yarn/global/node_modules/.bin"
