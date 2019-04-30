@@ -94,6 +94,12 @@ do
             echo "Setup done and running."
             exit
             ;;
+          mysql55)
+            echo "Setup MySQL docker container..."
+            docker run --name mysql55 -p 3307:3306 -e MYSQL_ROOT_PASSWORD=root -d mariadb:5.5
+            echo "Setup done and running."
+            exit
+            ;;
           postgres)
             echo "Setup PostgreSQL docker container..."
             docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres
