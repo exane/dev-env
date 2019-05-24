@@ -59,7 +59,8 @@ print_setup_usage() {
     postgresql96
     mongodb
     mongodb34
-    elasticsearch
+    elasticsearch71
+    elasticsearch56
     redis
   )
 
@@ -154,9 +155,15 @@ do
             echo "Setup done and running."
             exit
             ;;
-          elasticsearch)
+          elasticsearch71)
             echo "Setup Elasticsearch docker container..."
-            docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e "ES_JAVA_OPTS=-Xms512m" -d docker.elastic.co/elasticsearch/elasticsearch:5.6.1
+            docker run --name elasticsearch71 -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -d docker.elastic.co/elasticsearch/elasticsearch:7.1.0
+            echo "Setup done and running."
+            exit
+            ;;
+          elasticsearch56)
+            echo "Setup Elasticsearch docker container..."
+            docker run --name elasticsearch56 -p 9201:9200 -p 9301:9300 -e "discovery.type=single-node" -e "ES_JAVA_OPTS=-Xms512m" -d docker.elastic.co/elasticsearch/elasticsearch:5.6.1
             echo "Setup done and running."
             exit
             ;;
