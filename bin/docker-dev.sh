@@ -106,6 +106,11 @@ do
       ;;
     setup)
       shift
+      SCRIPT_DIR=$(dirname $0)
+      pushd $SCRIPT_DIR
+      cd ../.store
+      STORE_DIR=$(pwd)
+      popd
       if [ "${#*}" == 0 ]; then
         print_setup_usage
         exit
@@ -127,19 +132,28 @@ do
             ;;
           postgresql)
             echo "Setup PostgreSQL docker container..."
-            docker run --name postgresql -p 5432:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres
+            docker run --name postgresql -p 5432:5432 \
+              -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root \
+              -v $STORE_DIR/postgresql:/var/lib/postgresql/data \
+              -d postgres
             echo "Setup done and running."
             exit
             ;;
           postgresql96)
             echo "Setup PostgreSQL 9.6 on port 5434 docker container..."
-            docker run --name postgresql96 -p 5434:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres:9.6
+            docker run --name postgresql96 -p 5434:5432 \
+              -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root \
+              -v $STORE_DIR/postgresql96:/var/lib/postgresql/data \
+              -d postgres:9.6
             echo "Setup done and running."
             exit
             ;;
           postgresql94)
             echo "Setup PostgreSQL 9.4 on port 5433 docker container..."
-            docker run --name postgresql94 -p 5433:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -d postgres:9.4
+            docker run --name postgresql94 -p 5433:5432 \
+              -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root \
+              -v $STORE_DIR/postgresql94:/var/lib/postgresql/data \
+              -d postgres:9.4
             echo "Setup done and running."
             exit
             ;;

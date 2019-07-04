@@ -2,3 +2,4 @@ dockerfile
 config.yml
 .build/*
 !.build/.gitkeep
+.store
