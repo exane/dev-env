@@ -134,7 +134,6 @@ do
             echo "Setup PostgreSQL docker container..."
             docker run --name postgresql -p 5432:5432 \
               -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root \
-              -v $STORE_DIR/postgresql:/var/lib/postgresql/data \
               -d postgres
             echo "Setup done and running."
             exit
@@ -143,7 +142,6 @@ do
             echo "Setup PostgreSQL 9.6 on port 5434 docker container..."
             docker run --name postgresql96 -p 5434:5432 \
               -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root \
-              -v $STORE_DIR/postgresql96:/var/lib/postgresql/data \
               -d postgres:9.6
             echo "Setup done and running."
             exit
@@ -152,7 +150,6 @@ do
             echo "Setup PostgreSQL 9.4 on port 5433 docker container..."
             docker run --name postgresql94 -p 5433:5432 \
               -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root \
-              -v $STORE_DIR/postgresql94:/var/lib/postgresql/data \
               -d postgres:9.4
             echo "Setup done and running."
             exit
@@ -165,7 +162,7 @@ do
             ;;
           mongodb34)
             echo "Setup MongoDB v3.4 on port 27018 as docker container..."
-            docker run --name mongodb -p 27018:27017 -d mongo:3.4
+            docker run --name mongodb34 -p 27018:27017 -d mongo:3.4
             echo "Setup done and running."
             exit
             ;;
