@@ -187,7 +187,7 @@ do
             ;;
           rabbitmq37)
             echo "Setup RabbitMQ docker container..."
-            docker run --name rabbitmq37 -p 5672:5672 -d rabbitmq:3.7
+            docker run --name rabbitmq37 -p 5672:5672 -p 5673:15672 -d rabbitmq:3.7-management
             echo "Setup done and running."
             exit
             ;;
