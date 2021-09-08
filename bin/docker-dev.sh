@@ -63,6 +63,7 @@ print_setup_usage() {
     elasticsearch56
     redis,
     rabbitmq37
+    rabbitmq38
   )
 
   echo 'Available services are:'
@@ -186,8 +187,14 @@ do
             exit
             ;;
           rabbitmq37)
-            echo "Setup RabbitMQ docker container..."
+            echo "Setup RabbitMQ 3.7 docker container..."
             docker run --name rabbitmq37 -p 5672:5672 -p 5673:15672 -d rabbitmq:3.7-management
+            echo "Setup done and running."
+            exit
+            ;;
+          rabbitmq38)
+            echo "Setup RabbitMQ 3.8 docker container..."
+            docker run --name rabbitmq38 -p 5674:5672 -p 5675:15672 -d rabbitmq:3.8-management
             echo "Setup done and running."
             exit
             ;;
