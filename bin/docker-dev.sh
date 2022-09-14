@@ -122,7 +122,7 @@ do
         case $arg in
           mysql)
             echo "Setup MySQL docker container..."
-            docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mariadb
+            docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mariadb:10.7
             echo "Setup done and running."
             exit
             ;;
@@ -136,7 +136,7 @@ do
             echo "Setup PostgreSQL docker container..."
             docker run --name postgresql -p 5432:5432 \
               -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root \
-              -d postgres
+              -d postgres:12
             echo "Setup done and running."
             exit
             ;;
